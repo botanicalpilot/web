@@ -190,7 +190,15 @@ const twoFingerRotateComponent: FingerMoveComponentDefinition = {
     this.el.sceneEl.removeEventListener('twofingermove', this.handleEvent)
   },
   handleEvent(event) {
-    this.el.object3D.rotation.y += event.detail.positionChange.x * this.data.factor
+    // Calculate the new rotation angle based on the positionChange
+    const newRotationY = this.el.object3D.rotation.y + event.detail.positionChange.x * this.data.factor;
+
+    // Limit the rotation to a maximum of 30 degrees and a minimum of -30 degrees
+    const maxRotationY = Math.PI / 6; // 30 degrees in radians
+    const minRotationY = -Math.PI / 6; // -30 degrees in radians
+
+    // Ensure the new rotation is within the specified limits
+    this.el.object3D.rotation.y = Math.max(minRotationY, Math.min(maxRotationY, newRotationY));
   },
 }
 
